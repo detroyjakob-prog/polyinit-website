@@ -82,6 +82,54 @@ echo "==> Verifying the binary"
 cp "$BINARY" "$TARGET"
 chmod +x "$TARGET"
 
+# Regenerate the manifest the site renders its download card from. Scanning the
+# whole directory rather than appending one asset means a removed binary
+# disappears from the site instead of lingering as a dead link.
+#
+# url is relative so the site works at any base path, including a GitHub Pages
+# project site served from /<repo>/.
+echo "==> Writing the download manifest"
+"$PYTHON" - "$OUTPUT" "$VERSION" <<'PY'
+import hashlib
+import json
+import os
+import sys
+
+output, version = sys.argv[1], sys.argv[2]
+
+assets = []
+for name in sorted(os.listdir(output)):
+    if not name.startswith("polyinit-"):
+        continue
+
+    path = os.path.join(output, name)
+    if not os.path.isfile(path):
+        continue
+
+    parts = name.split("-")
+    platform, arch = parts[1], "-".join(parts[2:])
+
+    with open(path, "rb") as handle:
+        blob = handle.read()
+
+    assets.append(
+        {
+            "name": name,
+            "platform": platform,
+            "arch": arch,
+            "bytes": len(blob),
+            "sha256": hashlib.sha256(blob).hexdigest(),
+            "url": "./downloads/" + name,
+        }
+    )
+
+with open(os.path.join(output, "downloads.json"), "w", encoding="utf-8") as handle:
+    json.dump({"version": version, "assets": assets}, handle, indent=2)
+    handle.write("\n")
+
+print("    downloads.json: %d asset(s)" % len(assets))
+PY
+
 SIZE="$(du -h "$TARGET" | cut -f1)"
 echo "==> Wrote $TARGET ($SIZE)"
 echo "    polyinit $VERSION"

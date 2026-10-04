@@ -11,7 +11,7 @@ import {
 // footer. Change these in both places if the project moves.
 const LINKS = {
   pypi: "https://pypi.org/project/polyinit/",
-  source: "https://github.com/jacob/polyinit",
+  source: "https://github.com/detroyjakob-prog/polyinit",
 };
 
 const LANGUAGES = [
@@ -206,7 +206,7 @@ export async function render() {
 <meta property="og:description" content="An interactive terminal scaffolder spanning six languages, with templates that actually compile." />
 <meta property="og:type" content="website" />
 <meta name="color-scheme" content="dark light" />
-<link rel="stylesheet" href="/styles.css" />
+<link rel="stylesheet" href="./styles.css" />
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230b0f14'/%3E%3Ctext x='16' y='23' font-family='monospace' font-size='19' font-weight='bold' fill='%234fd6e0' text-anchor='middle'%3E%3E%3C/text%3E%3C/svg%3E" />
 </head>
 <body>
@@ -214,7 +214,7 @@ export async function render() {
 
 <header class="site-header">
   <div class="wrap">
-    <a class="brand" href="/">
+    <a class="brand" href="./">
       <span class="brand-mark" aria-hidden="true">&gt;</span>
       polyinit${version}
     </a>
@@ -305,7 +305,7 @@ export async function render() {
   </div>
 </footer>
 
-<script src="/main.js" defer></script>
+<script src="./main.js" defer></script>
 </body>
 </html>
 `;

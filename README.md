@@ -56,8 +56,9 @@ card straight from that file, so the page cannot claim a checksum the file
 does not have. `build.js` refuses to lie in the other direction too: with no
 assets it renders a placeholder instead of a broken download button.
 
-Both the binary and the manifest are untracked, since they are build output.
-A fresh clone therefore shows the placeholder until you run `npm run release`.
+The binary and the manifest are tracked despite being build output, because
+Pages serves the download straight from the repository — see
+[Deploying](#deploying). Everything else PyInstaller leaves behind is ignored.
 
 ## How the build fits together
 
@@ -102,3 +103,26 @@ Animation is disabled under `prefers-reduced-motion: reduce`.
 `dist/` is a plain directory of static files — no server-side rendering, no
 routing. Upload it anywhere that serves files, and make sure
 `/downloads/*` is served as an octet stream rather than executed.
+
+### GitHub Pages
+
+`.github/workflows/deploy.yml` builds on every push to `main` and publishes
+`dist/` as a Pages artifact. Set Settings → Pages → Source to **GitHub
+Actions** once, and it deploys itself from then on.
+
+There is no `npm install` step because there is nothing to install. The
+workflow runs `npm run check` first, so a contrast regression fails the deploy
+instead of shipping.
+
+Every URL in the rendered HTML is relative (`./styles.css`, not
+`/styles.css`). That is what lets the same build work at a domain root and at
+a project subpath such as `https://<user>.github.io/<repo>/` — a root-absolute
+path would 404 on the latter. If you add a link to a new file, keep it
+relative.
+
+The workflow does not build the binary; it uses the one committed under
+`public/downloads/`. PyInstaller output is not byte-reproducible, so rebuilding
+adds another ~16 MB blob to history rather than replacing one. If that becomes
+painful, move the download to a GitHub release and point `asset.url` at it —
+`downloads.json` is the only place that needs to change.
+

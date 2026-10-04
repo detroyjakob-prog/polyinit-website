@@ -1,0 +1,13 @@
+{
+  "version": "0.3.0",
+  "assets": [
+    {
+      "name": "polyinit-linux-x86_64",
+      "platform": "linux",
+      "arch": "x86_64",
+      "bytes": 16383952,
+      "sha256": "cb8d70291f9268865ed60b877e7832dce06c89da0e132a8400e42172b00265c0",
+      "url": "./downloads/polyinit-linux-x86_64"
+    }
+  ]
+}
