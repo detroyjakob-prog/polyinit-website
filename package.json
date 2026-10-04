@@ -1,0 +1,19 @@
+{
+  "name": "polyinit-website",
+  "version": "0.3.0",
+  "private": true,
+  "description": "Website and release downloads for polyinit",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "node scripts/dev.js",
+    "build": "node scripts/build.js",
+    "serve": "node scripts/serve.js",
+    "clean": "node scripts/clean.js",
+    "check": "node scripts/check-a11y.js",
+    "build:binary": "bash scripts/build-binary.sh",
+    "release": "bash scripts/build-binary.sh && node scripts/build.js && node scripts/check-a11y.js"
+  }
+}

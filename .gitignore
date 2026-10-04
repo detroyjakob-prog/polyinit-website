@@ -1,0 +1,18 @@
+# Build output
+dist/
+.build/
+
+# Dependencies — this project is deliberately zero-dependency, but keep this
+# in case that ever changes.
+node_modules/
+
+# public/downloads is generated wholesale by scripts/build-binary.sh (the
+# binary and the checksum manifest that describes it). Nothing in it is
+# edited by hand, and tracking only part of it would let the site advertise a
+# download that is absent or whose checksum no longer matches. Regenerate with
+# `npm run release`.
+public/downloads/
+
+# Local overrides
+*.log
+.DS_Store
